@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MXCRO EDITZZ | Pro Hub</title>
+    <style>
+        :root { --primary: #ff0055; --bg: #050505; --card: #121212; --text: #ffffff; --success: #00ff88; --yt: #ff0000; }
+        body { margin: 0; background: var(--bg); color: var(--text); font-family: 'Segoe UI', sans-serif; transition: 0.5s; overflow-x: hidden; }
+        .glow-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 50% -10%, var(--primary) 0%, var(--bg) 80%); z-index: -1; opacity: 0.3; }
+        .secret-dot { position: fixed; bottom: 30px; right: 30px; width: 22px; height: 22px; background: #ff4444; border-radius: 50%; cursor: pointer; z-index: 10005; box-shadow: 0 0 15px #ff4444; }
+        
+        #timerBar { display: none; width: 100%; padding: 12px; text-align: center; font-weight: bold; position: fixed; top: 0; z-index: 10007; background: #ff4444; color: #fff; }
+        #eventBar { display: none; width: 100%; padding: 12px; text-align: center; font-weight: bold; position: sticky; top: 0; z-index: 10000; background: var(--primary); color: white; }
+
+        header { text-align: center; padding: 60px 20px 20px; }
+        header h1 { font-size: 2.8rem; margin: 0; letter-spacing: 4px; font-weight: 900; text-shadow: 0 0 15px var(--primary); }
+        
+        /* New Welcome Message Style */
+        #unlockMessage { display: none; background: rgba(255, 255, 255, 0.1); border: 1px dashed var(--primary); padding: 15px; border-radius: 10px; margin: 10px auto; max-width: 500px; font-size: 14px; line-height: 1.6; }
+
+        .container { max-width: 1200px; margin: auto; padding: 20px; }
+        #imgAnnouncement { display: none; margin-bottom: 30px; background: var(--card); border: 2px solid var(--primary); border-radius: 20px; overflow: hidden; max-width: 600px; margin: auto; }
+        #annImg { width: 100%; height: auto; display: block; }
+
+        .host-area { background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #222; text-align: center; }
+        #loginSection { display: none; background: #111; padding: 20px; border-radius: 10px; margin: 15px auto; max-width: 350px; border: 1px solid #444; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: var(--card); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 20px; text-align: center; position: relative; }
+        .delete-app { position: absolute; top: 10px; right: 10px; color: red; cursor: pointer; display: none; }
+        .is-admin .delete-app { display: block; }
+
+        .dl-btn { display: inline-block; margin-top: 10px; padding: 12px 30px; background: var(--primary); color: white; text-decoration: none; border-radius: 50px; font-weight: bold; width: 85%; border:none; cursor: pointer; }
+        .locked-btn { background: transparent; border: 1px solid #444; color: #666; cursor: not-allowed; }
+
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 10006; justify-content: center; align-items: center; text-align: center; }
+        .lock-box { background: var(--card); padding: 40px; border-radius: 30px; border: 2px solid var(--primary); max-width: 420px; width: 90%; }
+        
+        .social-btn { color: white; padding: 15px; border-radius: 50px; text-decoration: none; display: block; margin: 12px 0; font-weight: bold; width: 100%; border: none; cursor: pointer; }
+        .insta-btn { background: linear-gradient(45deg, #f09433, #dc2743, #bc1888); }
+        .yt-btn { background: var(--yt); }
+
+        #adminControls { display: none; margin-top: 20px; border-top: 1px solid #333; padding-top: 20px; text-align: left; }
+        .admin-input { padding: 10px; background: #000; color: white; border: 1px solid #333; border-radius: 5px; margin: 5px; width: 90%; }
+        .admin-btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin: 5px; background: var(--success); color: black; }
+    </style>
+</head>
+<body>
+
+<div id="timerBar">Access expiring in <span id="seconds">60</span>s</div>
+<div id="eventBar"></div>
+<div class="glow-bg"></div>
+<div class="secret-dot" id="secretTrigger"></div>
+
+<div id="instaOverlay" class="overlay">
+    <div class="lock-box">
+        <h2 style="color: var(--primary);">UNLOCK SESSION ðŸ”’</h2>
+        <p style="color: #888; font-size: 12px;">Complete all steps. Verification takes 1 minute.</p>
+        <a href="https://www.instagram.com/_ashish_jaiswal007" target="_blank" class="social-btn insta-btn">Follow @_ashish_jaiswal007</a>
+        <a href="https://www.instagram.com/mxcro_editzz07" target="_blank" class="social-btn insta-btn">Follow @mxcro_editzz07</a>
+        <a href="https://youtube.com/@mxcro_editzz" target="_blank" class="social-btn yt-btn">Subscribe YouTube</a>
+        <button onclick="checkAndUnlock()" class="social-btn" style="background: var(--success); color: black;">CHECK VERIFICATION</button>
+    </div>
+</div>
+
+<header>
+    <h1>MXCRO EDITZZ</h1>
+    <div id="unlockMessage">
+        WELCOME GUYS ðŸ˜Š<br>
+        I AM ASHISH JAISWAL ðŸ’—<br>
+        AND I AM PROVIDING PREMIUM APPS ðŸ‘‡
+    </div>
+    <div id="welcomeMsg" style="display:none; color: var(--success); font-weight: bold;">WELCOME HOST ðŸ‘‘</div>
+</header>
+
+<div class="container">
+    <div id="imgAnnouncement">
+        <img id="annImg" src="">
+        <div id="annText" style="padding: 15px; text-align: center; font-weight: bold;"></div>
+    </div>
+
+    <div class="host-area">
+        <button id="mainUnlockBtn" class="dl-btn" style="width: auto; padding: 12px 40px;" onclick="showLock()">Unlock All Apps</button>
+        
+        <div id="loginSection">
+            <input type="password" id="passInput" class="admin-input" placeholder="Enter Host Key">
+            <button class="admin-btn" onclick="login()">Login</button>
+        </div>
+
+        <div id="adminControls">
+            <h3>Admin Panel</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                <div>
+                    <label>Theme:</label>
+                    <select id="themeSelect" class="admin-input" onchange="saveTheme()">
+                        <option value="default">Neon Pink</option><option value="cyber">Cyber Blue</option>
+                        <option value="gold">Gold</option><option value="forest">Forest</option>
+                        <option value="blood">Blood</option><option value="purple">Purple</option>
+                        <option value="toxic">Toxic</option><option value="midnight">Midnight</option>
+                        <option value="lava">Lava</option><option value="ocean">Ocean</option>
+                        <option value="galaxy">Galaxy</option><option value="emerald">Emerald</option>
+                        <option value="sunset">Sunset</option><option value="frost">Frost</option>
+                        <option value="lemon">Lemon</option><option value="rose">Rose</option>
+                        <option value="space">Space</option><option value="matrix">Matrix</option>
+                        <option value="royal">Royal</option><option value="candy">Candy</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Event Mode:</label>
+                    <input type="text" id="eventInput" class="admin-input" placeholder="Event Message">
+                    <button class="admin-btn" onclick="saveEvent(true)">ON</button>
+                    <button class="admin-btn" style="background:red; color:white;" onclick="saveEvent(false)">OFF</button>
+                </div>
+            </div>
+            <hr>
+            <label>Image Announcement:</label>
+            <input type="text" id="picUrl" class="admin-input" placeholder="Image URL">
+            <input type="text" id="picMsg" class="admin-input" placeholder="Message">
+            <button class="admin-btn" onclick="savePic(true)">Show Image</button>
+            <button class="admin-btn" style="background:#444; color:white;" onclick="savePic(false)">Remove</button>
+            <hr>
+            <label>Add New App:</label>
+            <input type="text" id="appName" class="admin-input" placeholder="App Name">
+            <input type="text" id="appLink" class="admin-input" placeholder="Direct Link">
+            <button class="admin-btn" onclick="addApp()">Add App</button>
+            <button class="admin-btn" style="background:red; color:white;" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="grid" id="appGrid"></div>
+</div>
+
+<script>
+    const themes = {
+        default: { p: '#ff0055', b: '#050505', c: '#121212' }, cyber: { p: '#00f2ff', b: '#000814', c: '#001d3d' },
+        gold: { p: '#ffd700', b: '#0f0f00', c: '#1a1a00' }, forest: { p: '#00ff88', b: '#000f05', c: '#001a0a' },
+        blood: { p: '#ff0000', b: '#0a0000', c: '#1a0000' }, purple: { p: '#bf00ff', b: '#0a000f', c: '#1a0025' },
+        toxic: { p: '#adff2f', b: '#050a00', c: '#101a00' }, midnight: { p: '#334155', b: '#020617', c: '#0f172a' },
+        lava: { p: '#ff4500', b: '#100500', c: '#251000' }, ocean: { p: '#0077be', b: '#000d1a', c: '#001f3f' },
+        galaxy: { p: '#ff00ff', b: '#050010', c: '#150025' }, emerald: { p: '#50c878', b: '#06160a', c: '#0b2e18' },
+        sunset: { p: '#ff5f6d', b: '#1a0a0f', c: '#2d141a' }, frost: { p: '#a2c2e1', b: '#0a1016', c: '#16202c' },
+        lemon: { p: '#fff44f', b: '#1a1a00', c: '#2a2a0a' }, rose: { p: '#e0115f', b: '#1a050a', c: '#2a0a14' },
+        space: { p: '#4b0082', b: '#05000a', c: '#10001a' }, matrix: { p: '#00ff41', b: '#000a00', c: '#001a00' },
+        royal: { p: '#4169e1', b: '#000a1a', c: '#001a3d' }, candy: { p: '#ff69b4', b: '#1a0a14', c: '#2d1425' }
+    };
+
+    const defaultApps = [
+        { name: "Capcut Pro", link: "https://arolinks.com/o2fQtg" },
+        { name: "Kinemaster pro", link: "https://go.arlinks.in/4gxW4XTy" },
+        { name: "Lightroom pro", link: "https://arolinks.com/CwNS" },
+        { name: "Filmora pro", link: "https://arolinks.com/tdV" },
+        { name: "Spotify pro", link: "https://arolinks.com/LBUrJ" },
+        { name: "Inshot pro", link: "https://arolinks.com/yR8cy" },
+        { name: "Picsart pro", link: "https://arolinks.com/camm" },
+        { name: "Vmake pro", link: "https://arolinks.com/DuIEyt" },
+        { name: "Remini pro", link: "https://arolinks.com/sSsUI" },
+        { name: "Truecaller pro", link: "https://arolinks.com/mNbu9" },
+        { name: "Sony liv pro", link: "https://arolinks.com/n0N" },
+        { name: "Vn pro", link: "https://arolinks.com/o9Yc" },
+        { name: "Panda vpn pro", link: "https://go.arlinks.in/F23di" },
+        { name: "Jio hotstar pro", link: "https://arolinks.com/8LB20" },
+        { name: "Playit pro", link: "https://arolinks.com/Ro6A3" },
+        { name: "Crunchyroll pro", link: "https://arolinks.com/n9K5" },
+        { name: "Netflix pro", link: "https://go.arlinks.in/AqAvmSA" },
+        { name: "Canva pro", link: "https://rrr123355.github.io/CanvaPro/" },
+        { name: "Kuku tv pro", link: "https://arolinks.com/3LNvC4" },
+        { name: "Alight motion pro", link: "https://arolinks.com/2Zj5eA" },
+        { name: "Castle pro", link: "https://go.arlinks.in/uKy5j" },
+        { name: "Prime tv pro", link: "https://go.arlinks.in/YQ6P" }
+    ];
+
+    let apps = JSON.parse(localStorage.getItem('mx_apps')) || defaultApps;
+    let pic = JSON.parse(localStorage.getItem('mx_pic')) || { active: false, url: '', msg: '' };
+    let evt = JSON.parse(localStorage.getItem('mx_evt')) || { active: false, msg: '' };
+    let themeKey = localStorage.getItem('mx_theme') || 'default';
+    let isUnlocked = false, lockTime = 0;
+
+    function render() {
+        const t = themes[themeKey] || themes.default;
+        document.documentElement.style.setProperty('--primary', t.p);
+        document.documentElement.style.setProperty('--bg', t.b);
+        document.documentElement.style.setProperty('--card', t.c);
+
+        // Control Welcome Message visibility
+        document.getElementById('unlockMessage').style.display = isUnlocked ? 'block' : 'none';
+
+        const imgAnn = document.getElementById('imgAnnouncement');
+        if(pic.active) { imgAnn.style.display = 'block'; document.getElementById('annImg').src = pic.url; document.getElementById('annText').innerText = pic.msg; }
+        else { imgAnn.style.display = 'none'; }
+
+        const evBar = document.getElementById('eventBar');
+        if(evt.active) { evBar.style.display = 'block'; evBar.innerText = evt.msg; }
+        else { evBar.style.display = 'none'; }
+
+        const grid = document.getElementById('appGrid');
+        grid.innerHTML = '';
+        apps.forEach((a, i) => {
+            grid.innerHTML += `<div class="card">
+                <span class="delete-app" onclick="deleteApp(${i})">âœ–</span>
+                <h3>${a.name}</h3>
+                ${isUnlocked ? `<a href="${a.link}" class="dl-btn" target="_blank">DOWNLOAD</a>` : `<button class="dl-btn locked-btn" onclick="showLock()">LOCKED</button>`}
+            </div>`;
+        });
+    }
+
+    function showLock() { if(!isUnlocked) { document.getElementById('instaOverlay').style.display = 'flex'; lockTime = Date.now(); } }
+    
+    function checkAndUnlock() {
+        if((Date.now() - lockTime) < 55000) return alert("Verification in progress... wait 1 min.");
+        document.getElementById('instaOverlay').style.display = 'none';
+        isUnlocked = true; render();
+        
+        const bar = document.getElementById('timerBar');
+        bar.style.display = 'block';
+        let left = 60;
+        const intr = setInterval(() => {
+            left--; document.getElementById('seconds').innerText = left;
+            if(left <= 0) { clearInterval(intr); isUnlocked = false; bar.style.display = 'none'; render(); alert("Session Expired!"); }
+        }, 1000);
+    }
+
+    function login() {
+        if(document.getElementById('passInput').value === "ashishjaiswal8252568155") {
+            document.body.classList.add('is-admin');
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('adminControls').style.display = 'block';
+            document.getElementById('welcomeMsg').style.display = 'block';
+            isUnlocked = true; render();
+        }
+    }
+    function logout() { location.reload(); }
+    function saveTheme() { themeKey = document.getElementById('themeSelect').value; localStorage.setItem('mx_theme', themeKey); render(); }
+    function savePic(s) { pic = { active: s, url: document.getElementById('picUrl').value, msg: document.getElementById('picMsg').value }; localStorage.setItem('mx_pic', JSON.stringify(pic)); render(); }
+    function saveEvent(s) { evt = { active: s, msg: document.getElementById('eventInput').value }; localStorage.setItem('mx_evt', JSON.stringify(evt)); render(); }
+    function addApp() {
+        apps.push({ name: document.getElementById('appName').value, link: document.getElementById('appLink').value });
+        localStorage.setItem('mx_apps', JSON.stringify(apps)); render();
+    }
+    function deleteApp(i) { apps.splice(i, 1); localStorage.setItem('mx_apps', JSON.stringify(apps)); render(); }
+
+    let c = 0; document.getElementById('secretTrigger').onclick = () => { c++; if(c === 3) { document.getElementById('loginSection').style.display = 'block'; c = 0; } setTimeout(()=>c=0, 2000); };
+    render();
+</script>
+</body>
+</html>
+  
